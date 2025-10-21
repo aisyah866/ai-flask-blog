@@ -1,9 +1,7 @@
 from flask import Flask, request, jsonify
-from google import genai
+# from google import genai  # Nanti aktifkan lagi kalau sudah pakai API key
 
 app = Flask(__name__)
-
-client = genai.Client(api_key="API_KEY_KAMU")
 
 @app.route("/ai", methods=["POST"])
 def ai():
@@ -13,13 +11,11 @@ def ai():
         return jsonify({"result": "Tolong masukkan pertanyaan!"})
 
     try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt
-        )
-        return jsonify({"result": response.text})
+        return jsonify({"result": f"Pesan kamu diterima: {prompt}"})
     except Exception as e:
         return jsonify({"result": f"Terjadi kesalahan: {str(e)}"})
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
