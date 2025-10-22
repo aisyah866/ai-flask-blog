@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
-# from google import genai  # Nanti aktifkan lagi kalau sudah pakai API key
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)  # izinkan akses dari blog
 
 @app.route("/ai", methods=["POST"])
 def ai():
